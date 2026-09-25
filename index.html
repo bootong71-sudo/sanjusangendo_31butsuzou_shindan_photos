@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://www.sanjusangendo.jp" crossorigin>
+<title>三十三間堂 31尊 おすすめ仏像診断</title>
+<style>
+  :root{
+    --bg:#f7f2e8; --card:#fffdf8; --ink:#2b2118; --sub:#7d6c57;
+    --accent:#b3402f; --accent2:#8a6a2f; --line:#e3d7c2; --gold:#c9a24a;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    font-family:"Hiragino Kaku Gothic ProN","Yu Gothic",Meiryo,system-ui,sans-serif;
+    background:
+      radial-gradient(1200px 600px at 50% -10%, #fff8ec 0%, transparent 60%),
+      var(--bg);
+    color:var(--ink); line-height:1.8; -webkit-font-smoothing:antialiased;
+    min-height:100vh; display:flex; justify-content:center; padding:16px;
+  }
+  .app{width:100%; max-width:640px}
+  .card{
+    background:var(--card); border:1px solid var(--line); border-radius:20px;
+    box-shadow:0 10px 30px rgba(80,60,30,.08); padding:26px 22px;
+  }
+  h1{font-size:1.4rem; letter-spacing:.04em; text-align:center; line-height:1.5}
+  .sub{text-align:center; color:var(--sub); font-size:.85rem; margin-top:10px}
+  .rule{height:1px; background:linear-gradient(90deg,transparent,var(--gold),transparent); margin:18px 0}
+  .btn{
+    display:block; width:100%; border:none; cursor:pointer; font-family:inherit;
+    background:var(--accent); color:#fff; font-size:1.02rem; padding:15px;
+    border-radius:14px; letter-spacing:.06em; margin-top:22px; transition:.2s;
+    box-shadow:0 6px 16px rgba(179,64,47,.25);
+  }
+  .btn:hover{filter:brightness(1.08)}
+  .btn.ghost{background:transparent; color:var(--sub); box-shadow:none; border:1px solid var(--line)}
+  .btn:disabled{opacity:.4; cursor:default}
+
+  .topbar{display:flex; align-items:center; gap:12px; margin-bottom:14px}
+  .back{
+    border:1px solid var(--line); background:#fff; border-radius:10px;
+    width:42px; height:38px; font-size:1.1rem; color:var(--sub); cursor:pointer; flex:0 0 auto;
+  }
+  .back:disabled{opacity:.3}
+  .prog{flex:1; height:8px; background:#ece2d0; border-radius:99px; overflow:hidden}
+  .prog > i{display:block; height:100%; width:0; background:linear-gradient(90deg,var(--gold),var(--accent)); transition:width .35s}
+  .qnum{font-size:.78rem; color:var(--sub); letter-spacing:.12em; margin-bottom:6px}
+  .qtext{font-size:1.18rem; line-height:1.6; margin-bottom:18px; font-weight:600}
+  .opts{display:grid; gap:10px}
+  .opt{
+    display:flex; align-items:center; gap:12px; text-align:left; font-family:inherit;
+    background:#fff; border:1.5px solid var(--line); border-radius:14px;
+    padding:14px 16px; font-size:1rem; color:var(--ink); cursor:pointer; transition:.18s;
+  }
+  .opt:hover{border-color:var(--gold); background:#fffbf1}
+  .opt.on{border-color:var(--accent); background:#fdf1ee; box-shadow:0 0 0 3px rgba(179,64,47,.10)}
+  .num{
+    flex:0 0 auto; width:26px; height:26px; border-radius:50%; background:#efe6d5;
+    color:var(--sub); font-size:.82rem; display:grid; place-items:center; font-weight:700;
+  }
+  .opt.on .num{background:var(--accent); color:#fff}
+
+  /* result */
+  .res-head{text-align:center; padding:8px 0 4px}
+  .badge{display:inline-block; font-size:.75rem; letter-spacing:.16em; color:var(--accent2);
+    border:1px solid var(--gold); border-radius:99px; padding:3px 14px; margin-bottom:14px}
+  .deity{font-size:2.05rem; letter-spacing:.06em; color:var(--accent); font-weight:700; line-height:1.25}
+  .reading{color:var(--sub); font-size:.9rem; letter-spacing:.18em; margin-top:4px}
+  .oneline{margin-top:14px; font-size:1.05rem; color:var(--ink)}
+  .oneline b{color:var(--accent2)}
+  .photo{
+    margin:18px auto 0; width:min(266px,74%); aspect-ratio:4/5; border-radius:16px;
+    overflow:hidden; border:1px solid var(--line); position:relative;
+    background:linear-gradient(160deg,#3a3128,#1d1813);
+    box-shadow:0 12px 28px rgba(60,40,20,.20);
+  }
+  .photo img{width:100%; height:100%; object-fit:cover; object-position:center top; display:block}
+  .photo .ph{
+    position:absolute; inset:0; display:none; place-items:center; text-align:center;
+    color:#cbb894; font-size:.78rem; line-height:1.8; padding:18px;
+  }
+  .photo .ph a{color:#e0cfa4}
+  .credit{text-align:center; color:var(--sub); font-size:.7rem; margin-top:8px}
+  .credit a{color:var(--accent2)}
+  .thumb{
+    width:46px; height:58px; border-radius:8px; object-fit:cover;
+    object-position:center top; border:1px solid var(--line);
+    background:#2a231c; flex:0 0 auto;
+  }
+  h2.sec{font-size:.85rem; letter-spacing:.14em; color:var(--accent2); margin:22px 0 8px;
+    border-left:3px solid var(--gold); padding-left:9px}
+  .why{display:grid; gap:10px}
+  .wrow{background:#fbf6ec; border:1px solid var(--line); border-radius:12px; padding:12px 14px; font-size:.93rem}
+  .wrow .k{font-size:.72rem; letter-spacing:.1em; color:var(--sub); display:block}
+  .wrow .v{font-weight:700}
+  .wrow .acc{color:var(--accent2)}
+  .para{font-size:.95rem; color:#3c3125}
+  .chips{display:flex; flex-wrap:wrap; gap:7px; margin-top:8px}
+  .chip{background:#f3ead7; color:#6b5738; font-size:.82rem; border-radius:99px; padding:4px 12px}
+  .others{display:grid; gap:8px; margin-top:8px}
+  .orow{display:flex; justify-content:space-between; align-items:center; gap:10px;
+    background:#fff; border:1px solid var(--line); border-radius:12px; padding:11px 14px; font-size:.92rem}
+  .bar{height:6px; background:#ece2d0; border-radius:99px; overflow:hidden; flex:1 1 60px; max-width:150px}
+  .bar > i{display:block; height:100%; background:var(--gold)}
+  .foot{text-align:center; color:var(--sub); font-size:.72rem; margin-top:20px; line-height:1.7}
+  .fade{animation:f .4s ease}
+  @keyframes f{from{opacity:0; transform:translateY(8px)}to{opacity:1; transform:none}}
+  @media(max-width:420px){ .deity{font-size:1.7rem} .card{padding:20px 16px} }
+</style>
+</head>
+<body>
+<div class="app"><div class="card" id="app"></div></div>
+
+<script>
+/* ============================================================
+   採点マトリクス  S[質問][選択肢] = {仏像id: 素点}
+   重み M = [1, 1, 1, 1.5, 2]  (Q4・Q5を重く見る)
+   ※ここを書き換えると診断ロジックを調整できます
+   ============================================================ */
+const M = [1, 1, 1, 1.5, 2];
+const S = [
+  /* Q1 今の自分に加えたい力 */
+  [ {1:3,5:3,31:2,25:2,15:1},
+    {31:3,30:3,11:2,1:2,17:1},
+    {16:3,18:3,7:2,8:2,15:1},
+    {4:2,6:3,27:2,14:2,10:1,2:1},
+    {3:3,26:3,6:3,4:2},
+    {28:3,20:3,8:2,21:1},
+    {10:3,9:3,22:2,12:2,24:1},
+    {17:3,19:3,13:2,30:1} ],
+  /* Q2 困ったときどうする */
+  [ {1:3,31:3,5:2,11:1},
+    {18:3,7:3,16:2,20:1},
+    {4:2,10:2,14:2,6:3,2:1},
+    {16:3,20:2,13:2,28:1},
+    {10:3,12:2,2:2,9:1,27:2},
+    {19:3,30:3,23:2,17:1},
+    {24:3,28:2,9:2,13:1},
+    {20:3,21:3,13:2,2:1,27:1} ],
+  /* Q3 一番大切にしたいもの */
+  [ {3:2,26:2,20:2,1:2,28:1},
+    {22:3,12:3,14:2,9:2},
+    {14:3,4:2,22:2,6:1},
+    {10:3,4:2,2:2,27:2,6:1},
+    {11:3,8:3,12:2,10:1},
+    {19:2,15:2,11:2,17:2,30:2},
+    {2:3,14:3,23:3,7:2,24:1},
+    {15:3,25:3,26:2,16:2} ],
+  /* Q4 克服したいもの */
+  [ {5:3,24:3,21:2,1:2,23:2,7:1},
+    {25:3,21:2,2:2,20:1},
+    {15:3,26:2,3:2,16:1,17:1},
+    {4:2,6:3,27:3,2:2,12:1},
+    {16:3,18:3,15:2,31:2,7:2},
+    {30:3,17:3,19:2,2:1},
+    {28:3,20:3,8:2,1:1},
+    {13:3,19:2,20:2,16:1} ],
+  /* Q5 願い */
+  [ {1:3,17:3,15:2,13:2,30:1},
+    {5:3,31:3,24:2,1:2,9:1},
+    {18:3,16:3,7:3,8:2},
+    {4:2,6:3,14:2,2:2,10:1,27:1},
+    {3:3,26:3,20:2,4:1},
+    {22:3,10:3,9:2,12:2,24:1},
+    {19:3,30:2,13:2,17:1},
+    {20:3,2:3,14:2,21:1,27:2},
+    {8:3,11:3,12:2,9:1},
+    {29:3,10:2,22:2,14:1,4:1} ]
+];
+
+const QUESTIONS = [
+  { t:"今の自分に、ひとつ力を加えられるとしたら？",
+    opts:["勇気・度胸","行動力・突破力","知恵・判断力","人とつながる力","自分らしく表現する力","自分を律する力","人を守る力","成長・変化する力"] },
+  { t:"困ったとき、あなたはどうする？",
+    opts:["とにかく動いて突破する","まず状況をよく観察する","誰かに相談する","自分一人で考える","周囲と協力する","思い切って環境を変える","じっと耐えて力を蓄える","いったん気持ちを落ち着かせる"] },
+  { t:"今、あなたが一番大切にしたいものは？",
+    opts:["自分自身","家族","恋人・パートナー","友人・仲間","仕事・役割","夢・目標","安心できる暮らし","自分の信念・生き方"] },
+  { t:"あなたが今、克服したいものは？",
+    opts:["恐れ・不安","怒り・イライラ","自信のなさ","人間関係の悩み","迷い・決断できないこと","停滞・マンネリ","誘惑・悪い習慣","過去へのこだわり"] },
+  { t:"今のあなたの願いに一番近いものは？",
+    opts:["新しい一歩を踏み出したい","困難を乗り越えたい","物事を正しく見極めたい","人と心を通わせたい","自分らしく生きたい","大切な人を守りたい","人生を大きく変えたい","心穏やかに暮らしたい","努力を実らせたい","人の役に立ちたい"] }
+];
+
+/* ============================================================
+   31尊データ（ご提供の一覧・詳細にもとづく）
+   ============================================================ */
+const BU = {
+1:{n:"那羅延堅固",r:"ならえんけんご",one:"力で守る",troub:"弱さ・恐れ",pow:"勇気・実行力",wish:"困難を突破",
+ feat:"大力無双の神。悪をこらしめ、善を勧める護法神です。三十三間堂では仁王の阿形にあたり、筋肉隆々の力士形で、口を開いた力強い表情をしています。",
+ ben:"悪いもの・悪い環境に負けそうなとき、自分を守る力がほしいとき、迷いや誘惑に負けてしまうとき、「やらなければ」と思っているのに動けないときに。意志の強さ、行動力、勇気、自分を守る力、「これはやる」という決断力を伸ばします。"},
+2:{n:"難陀龍王",r:"なんだりゅうおう",one:"潤いを与える",troub:"不調・不和",pow:"調和",wish:"穏やかな生活",
+ feat:"八大龍王の一尊。風雨を調え、人々を歓喜させる龍王です。龍王らしい威厳のある姿で、自然を司る存在として表現されています。",
+ ben:"生活がうまくかみ合わない、天候や環境に左右される、心が荒れている、周囲との関係を穏やかにしたいときに。環境に適応する力、感情を整える力、周囲との調和、人を喜ばせる力を伸ばします。"},
+3:{n:"摩睺羅",r:"まごら",one:"個性で表現",troub:"人と違う",pow:"感性",wish:"自分らしく",
+ feat:"祖先獣・大蛇を神格化した音楽神。公式には「五眼異形の音楽神」とされます。人間とは違う、非常に個性的な異形の顔が特徴です。",
+ ben:"人と違うことが気になる、自分の個性を出せない、言葉でうまく表現できない、周囲に合わせすぎてしまうときに。表現力、個性、感性、音楽的感覚、「自分は自分」という力を伸ばします。"},
+4:{n:"緊那羅",r:"きんなら",one:"音で和ませる",troub:"人間関係",pow:"表現・共感",wish:"心を通わせる",
+ feat:"天龍八部衆の一尊。妙なる音楽で人の心を和ませる存在です。三十三間堂像は特に個性的な表情をしています。",
+ ben:"人間関係をやわらかくしたい、場の雰囲気をよくしたい、緊張して人とうまく話せないときに。音楽・表現力、コミュニケーション、人を和ませる力、共感する力を伸ばします。"},
+5:{n:"迦楼羅",r:"かるら",one:"邪悪を喰らう",troub:"恐怖・不安",pow:"勇気",wish:"怖さを克服",
+ feat:"インドのガルーダ（金翅鳥）に由来する護法神。毒蛇などを食べる巨大な鳥の神格化として知られ、鳥の顔を持つ異形の姿が大きな特徴です。",
+ ben:"恐怖や不安に負けそう、悪いものを断ち切りたい、自分の弱さに負けてしまうときに。勇気、決断力、邪気を跳ね返す力、問題を一気に突破する力を伸ばします。"},
+6:{n:"乾闥婆",r:"けんだつば",one:"芸術で和ませる",troub:"緊張・不和",pow:"感性",wish:"心地よい関係",
+ feat:"香りを食べるとされる音楽神。護法神・八部衆の一尊です。",
+ ben:"心が落ち着かない、人間関係がぎくしゃくする、自分の気持ちを表現できないときに。芸術性、感性、音楽性、人を楽しませる力を伸ばします。"},
+7:{n:"毘舍闍",r:"びしゃじゃ",one:"警戒して守る",troub:"危険",pow:"判断力",wish:"安心",
+ feat:"夜叉。四天王の持国天の家来として、乾闥婆とともに経典に登場します。",
+ ben:"自分一人では対処できない、身の回りの危険が心配、悪い影響から距離を置きたいときに。危険を察知する力、警戒心、判断力、守備力を伸ばします。"},
+8:{n:"散支大将",r:"さんしたいしょう",one:"善を守る福神",troub:"運・努力",pow:"判断力",wish:"努力を実らせる",
+ feat:"金光明経にも登場する福神で、毘沙門天八大夜叉の一尊。三十三間堂では寺伝で「満仙人」とされています。",
+ ben:"頑張っているのに報われない、運が悪い気がする、自分の努力を守ってほしい、悪い流れを変えたいときに。運をつかむ力、判断力、善悪を見分ける力、自分を律する力を伸ばします。"},
+9:{n:"満善車鉢",r:"まんぜんしゃはつ",one:"支える守護者",troub:"不安定",pow:"継続力",wish:"大切なものを守る",
+ feat:"千手経に登場する護法神。毘沙門天八大夜叉の次席とされる満賢に比定されます。",
+ ben:"自分や家族を守りたい、物事を安定させたい、支えてくれる存在がほしいときに。責任感、継続力、人を支える力を伸ばします。"},
+10:{n:"摩尼跋陀羅",r:"まにばだら",one:"大衆を守る",troub:"責任",pow:"統率力",wish:"人を守る",
+ feat:"毘沙門天八大夜叉の首領。満賢とともに大衆を守る善神です。",
+ ben:"人を支える立場で疲れている、周囲を守りたい、組織や家族を安定させたいときに。リーダーシップ、統率力、責任感、人を守る力を伸ばします。"},
+11:{n:"毘沙門天",r:"びしゃもんてん",one:"勝負・福徳",troub:"仕事・お金",pow:"勝負力",wish:"成果",
+ feat:"四天王の一尊・多聞天。宝塔を左手に持ち、戦勝・福徳の神として信仰されます。",
+ ben:"仕事や勝負で結果を出したい、金銭的な不安、困難に負けたくないときに。勝負強さ、行動力、財を守る力、決断力を伸ばします。"},
+12:{n:"提頭頼吒王",r:"だいずらたおう",one:"場を守る",troub:"家庭・職場",pow:"責任感",wish:"平和",
+ feat:"四天王・持国天。須弥山東方に住み、仏界を警固する守護神です。",
+ ben:"家庭や職場を守りたい、人間関係を安定させたい、自分の役割を果たせないときに。責任感、組織を支える力、人との調和、守備力を伸ばします。"},
+13:{n:"婆籔仙",r:"ばすせん",one:"学び直す",troub:"過去",pow:"精神力",wish:"再出発",
+ feat:"千手観音の脇侍として功徳天とともに従う護持の仙人です。",
+ ben:"過去の失敗を引きずっている、自分を変えたい、精神的に落ち着きたいときに。反省する力、学ぶ力、精神力、自己変革を伸ばします。"},
+14:{n:"大弁功德天",r:"だいべんくどくてん",one:"幸福・繁栄",troub:"暮らし",pow:"愛・豊かさ",wish:"幸福",
+ feat:"千手観音の代表的な脇侍。吉祥天とも呼ばれ、吉祥・幸福・繁栄を象徴する女神として知られます。",
+ ben:"暮らしを豊かにしたい、家庭を幸せにしたい、人間関係を良くしたいときに。愛される力、人を喜ばせる力、美的感覚、豊かさを生み出す力を伸ばします。"},
+15:{n:"帝釈天王",r:"たいしゃくてんのう",one:"王者の決断",troub:"自信不足",pow:"決断力",wish:"堂々と進む",
+ feat:"代表的な仏教守護神。もともとはバラモン教の神インドラです。",
+ ben:"自信が持てない、決断できない、困難に立ち向かえないときに。リーダーシップ、決断力、勇気、正義感を伸ばします。"},
+16:{n:"大梵天王",r:"だいぼんてんのう",one:"大局を見る",troub:"迷い",pow:"知恵",wish:"人生の方向",
+ feat:"仏法の代表的守護神。バラモン教の最高神ブラフマンが原型です。",
+ ben:"人生の方向がわからない、視野が狭くなっている、精神的な支えがほしいときに。知恵、大局を見る力、精神性、思考力を伸ばします。"},
+17:{n:"毘楼勒叉",r:"びるろくしゃ",one:"成長させる",troub:"停滞",pow:"成長力",wish:"発展",
+ feat:"四天王の増長天。南方を守護する神です。三十三間堂では寺伝上の尊名との対応に注意が必要です。",
+ ben:"成長したい、今の自分から変わりたい、何かを育てたいときに。成長力、行動力、発展させる力、人を育てる力を伸ばします。"},
+18:{n:"毘楼博叉",r:"びるばくしゃ",one:"広く見る",troub:"判断迷い",pow:"洞察力",wish:"本質を見る",
+ feat:"四天王の広目天。西方を守護します。広目天は「広く見る」存在として理解できます。",
+ ben:"周囲が見えなくなっている、判断を間違えたくない、本質を見抜きたいときに。観察力、洞察力、情報を集める力、本質を見抜く力を伸ばします。"},
+19:{n:"薩遮摩和羅",r:"さしゃまわら",one:"変革する",troub:"変化への恐れ",pow:"変革力",wish:"人生を変える",
+ feat:"ヒンドゥー教のシヴァ神にあたり、「大自在天」と訳される物質世界の最高神です。",
+ ben:"自分を変えたい、古い自分を捨てたい、大きな変化を恐れているときに。変化する力、決断力、既存の枠を壊す力、創造力を伸ばします。"},
+20:{n:"五部浄居",r:"ごぶじょうご",one:"欲から自由に",troub:"執着",pow:"自制心",wish:"心の平安",
+ feat:"「天龍八部衆」の「天」に相当し、物欲を離れた五つの天界の代表神です。",
+ ben:"欲望に振り回される、心が落ち着かない、物事に執着してしまうときに。自制心、精神的な落ち着き、集中力、心の自由を伸ばします。"},
+21:{n:"金色孔雀王",r:"こんじきくじゃくおう",one:"毒を喰らう",troub:"不安・煩悩",pow:"浄化力",wish:"悪を力に変える",
+ feat:"毒蛇を食べる孔雀を神格化した鳥神。三十三間堂像は特異な割面相が特徴です。",
+ ben:"不安や恐怖、悪いものに影響される、心の中の怒り・欲望・迷いがあるときに。邪念を取り除く力、冷静さ、浄化する力、困難を栄養に変える力を伸ばします。"},
+22:{n:"神母女",r:"じんもにょ",one:"子を守る母",troub:"家族・子育て",pow:"包容力",wish:"家族の幸せ",
+ feat:"訶梨帝母、いわゆる鬼子母神として知られる護法・愛児・豊穣の女神です。三十三間堂像は154cmと二十八部衆の中では小さめで、母性的というより、かなり迫力ある老女の表情が印象的です。",
+ ben:"子ども・家族のこと、家族の健康、子育て、家庭の安定が気になるときに。愛する力、育てる力、家族を守る力、包容力を伸ばします。"},
+23:{n:"金毘羅",r:"こんぴら",one:"海を守る",troub:"移動・安全",pow:"危険察知",wish:"無事に帰る",
+ feat:"ワニを神格化した水神。海上安全や大漁をもたらすとされます。",
+ ben:"旅行・航海・移動が心配、海に関わる仕事、自然災害への不安があるときに。危険を察知する力、環境に適応する力、大自然と付き合う力を伸ばします。"},
+24:{n:"畢婆伽羅",r:"ひばから",one:"防御する",troub:"不安",pow:"防御力",wish:"困難から守る",
+ feat:"鳩槃荼とともに天龍八部衆ともされる護法神です。",
+ ben:"自分ではどうにもできない不安、周囲の悪影響、心身の疲れがあるときに。防御力、忍耐力、危険回避、冷静な判断を伸ばします。"},
+25:{n:"阿修羅",r:"あしゅら",one:"闘争を力に",troub:"怒り・葛藤",pow:"闘争心",wish:"エネルギーを活かす",
+ feat:"古代ペルシャ起源とされる代表的な護法神・天龍八部衆の一尊。一般には帝釈天と戦う存在としても知られ、強烈な闘争性を持つ神です。",
+ ben:"怒りをどう扱えばいいかわからない、負けたくない、自分の弱さに腹が立つ、競争や葛藤で疲れているときに。闘争心、エネルギー、自己主張、強い意志を伸ばします。"},
+26:{n:"伊鉢羅",r:"いはつら",one:"個性を貫く",troub:"周囲との違い",pow:"独創性",wish:"自分らしく",
+ feat:"千手経では裟伽羅龍王とともに登場します。三十三間堂像はひれのような髪と眉が非常に個性的です。",
+ ben:"自分の個性に自信がない、周囲と違うことが気になる、自分らしい道を探しているときに。個性、自己表現、柔軟性、独自の発想を伸ばします。"},
+27:{n:"裟羯羅龍王",r:"さがらりゅうおう",one:"大海の恵み",troub:"心の乾き",pow:"包容力",wish:"人生の潤い",
+ feat:"大海に住む龍王。二十八部衆では四龍の一尊で、慈雨・善水の神です。",
+ ben:"生活に潤いがない、心が乾いている、人間関係がぎすぎすしているときに。柔軟性、包容力、豊かな感性、人を潤す力を伸ばします。"},
+28:{n:"密迹金剛士",r:"みっしゃくこんごうし",one:"悪を遮る",troub:"誘惑",pow:"自制力",wish:"悪習を断つ",
+ feat:"仁王の吽形。「執金剛」とも呼ばれる護法の夜叉です。那羅延堅固が「阿」なのに対して、こちらは「吽」。",
+ ben:"悪い習慣を断ちたい、誘惑に負ける、自分を律することができないときに。自制心、集中力、我慢する力、自分を守る力を伸ばします。"},
+29:{n:"千手観音",r:"せんじゅかんのん",one:"あらゆる手を差し伸べる",troub:"苦しみ全般",pow:"思いやり・対応力",wish:"人も自分も救う",
+ feat:"三十三間堂の本尊。中央の千手観音坐像は湛慶による鎌倉時代の作で、像高355cm。42本の手によって「千手」を表現しています。千体の立像は正式には十一面千手千眼観世音菩薩で、困苦する人々を救うため「十一面・千手千眼」の姿を具えるとされます。",
+ ben:"どんな悩みでもまず誰かに救ってほしい、苦しみから抜け出したい、大切な人を助けたい、自分だけではどうにもできないときに。思いやり、他者を助ける力、観察する力、相手の立場に立つ力、多様な方法で問題に対応する力を伸ばします。「千の手」は、一つの方法で駄目なら別の方法で救う、という象徴です。"},
+30:{n:"風神",r:"ふうじん",one:"風向きを変える",troub:"停滞",pow:"行動力",wish:"流れを変える",
+ feat:"古代インドのヴァーユに由来する自然神。風を操り、悪神を追い払い、富貴栄達を授ける神とされます。仏教では仏法を守り、善を勧め、風雨を調える存在です。",
+ ben:"環境を変えたい、物事が停滞している、悪い流れを吹き飛ばしたいときに。行動力、フットワーク、柔軟性、変化への対応力を伸ばします。"},
+31:{n:"雷神",r:"らいじん",one:"雷鳴で動かす",troub:"決断できない",pow:"瞬発力",wish:"一気に突破",
+ feat:"三十三間堂では雷神と風神が一組で安置されています。自然現象を神格化した神で、仏法を守り、悪をこらしめ、善を勧め、風雨を調える存在です。雷神は太鼓を周囲に配した非常に特徴的な姿です。",
+ ben:"ここぞという時に力が出ない、大きな壁を突破したい、迷いを吹き飛ばしたいときに。瞬発力、決断力、勇気、強いエネルギー、行動を起こす力を伸ばします。"}
+};
+
+/* ============================================================
+   仏像写真（出典：三十三間堂 公式サイト）
+   ・1〜28 : 二十八部衆ページの img01〜img28 が、寺の掲載順＝上記の番号順に対応
+   ・29    : 千手観音（中尊）ページ img01
+   ・30/31 : 風神・雷神ページ img01=風神（風袋）／img02=雷神（太鼓）
+   ※画像は公式サイトを直接参照しています。著作権は三十三間堂に帰属します。
+   ============================================================ */
+const SB="https://www.sanjusangendo.jp/wp-content/themes/33hp/assets/images/statue/";
+function imgInfo(id){
+  if(id<=28){
+    const p=String(id).padStart(2,"0");
+    return { u:SB+"nijuhachibushu/img"+p+".jpg",
+             s:SB+"nijuhachibushu/img"+p+".jpg 1x, "+SB+"nijuhachibushu/2x/img"+p+".jpg 2x",
+             pg:"https://www.sanjusangendo.jp/statue/nijuhachibushu/" };
+  }
+  if(id===29) return { u:SB+"senjukannon/img01.jpg",
+             s:SB+"senjukannon/img01.jpg 1x, "+SB+"senjukannon/2x/img01.jpg 2x",
+             pg:"https://www.sanjusangendo.jp/statue/senjukannon/" };
+  const p2 = id===30 ? "img01" : "img02";
+  return { u:SB+"fujinraijin/"+p2+".jpg",
+           s:SB+"fujinraijin/"+p2+".jpg 1x, "+SB+"fujinraijin/2x/"+p2+".jpg 2x",
+           pg:"https://www.sanjusangendo.jp/statue/fujinraijin/" };
+}
+
+/* ---------- 採点ロジック ---------- */
+const IDS = Object.keys(BU).map(Number);
+function compute(a){
+  const total={}, q4={}, q5={};
+  IDS.forEach(i=>{total[i]=0;q4[i]=0;q5[i]=0;});
+  for(let qi=0; qi<5; qi++){
+    const m=M[qi], oi=a[qi];
+    if(oi==null) continue;
+    const e=S[qi][oi];
+    for(const k in e){ const s=+k, v=e[k]*m;
+      total[s]+=v; if(qi===3)q4[s]+=v; if(qi===4)q5[s]+=v; }
+  }
+  const ranked=IDS.slice().sort((x,y)=>
+    total[y]-total[x] || q5[y]-q5[x] || q4[y]-q4[x] || x-y);
+  return {total, ranked};
+}
+
+/* ---------- 画面制御 ---------- */
+const app=document.getElementById('app');
+let step=-1;           // -1 intro, 0..4 questions, 5 result
+const ans=[null,null,null,null,null];
+
+function bar(){
+  const p = step<0 ? 0 : Math.min(100, Math.round((step/5)*100));
+  return `<div class="topbar">
+    <button class="back" id="back" ${step<=0?'disabled':''}>←</button>
+    <div class="prog"><i style="width:${step<0?0:Math.round(((step+1)/5)*100)}%"></i></div>
+    <span class="qnum" style="margin:0">${step<0?'START':'Q'+Math.min(step+1,5)+' / 5'}</span>
+  </div>`;
+}
+
+function intro(){
+  step=-1;
+  app.innerHTML=`
+  <div class="fade">
+    ${bar()}
+    <h1>京都・三十三間堂<br>31尊 おすすめ仏像診断</h1>
+    <div class="sub">5つの質問に答えると、<br>あなたの悩み・伸ばしたい力・願いから<br>最適な一尊を選びます。</div>
+    <div class="rule"></div>
+    <p class="sub" style="text-align:left; color:#3c3125; font-size:.9rem">
+      千手観音と二十八部衆をあわせた31尊の中から、あなたの今に寄り添う仏像をひとつご紹介します。所要時間は約1分です。
+    </p>
+    <button class="btn" id="go">はじめる</button>
+    <div class="foot">※本診断は設問ごとに重みを変えて31尊を採点しています。結果はひとつの目安としてお楽しみください。</div>
+  </div>`;
+  document.getElementById('go').onclick=()=>{ step=0; render(); };
+}
+
+function question(){
+  const q=QUESTIONS[step];
+  app.innerHTML=`
+  <div class="fade">
+    ${bar()}
+    <div class="qnum">QUESTION ${step+1}</div>
+    <div class="qtext">${q.t}</div>
+    <div class="opts">
+      ${q.opts.map((o,i)=>`<button class="opt ${ans[step]===i?'on':''}" data-i="${i}">
+        <span class="num">${i+1}</span><span>${o}</span></button>`).join('')}
+    </div>
+  </div>`;
+  app.querySelectorAll('.opt').forEach(b=>b.onclick=()=>{
+    ans[step]=+b.dataset.i;
+    if(step<4){ step++; render(); } else { step=5; render(); }
+  });
+  document.getElementById('back').onclick=()=>{ if(step>0){ step--; render(); } else intro(); };
+}
+
+function result(){
+  const {total, ranked}=compute(ans);
+  const top=ranked[0], B=BU[top];
+  const gi=imgInfo(top);
+  const sv=total[top]||1;
+  const others=ranked.slice(1,4).map(id=>({id, pct:Math.round(total[id]/sv*100)}));
+
+  app.innerHTML=`
+  <div class="fade">
+    ${bar()}
+    <div class="res-head">
+      <span class="badge">あなたのおすすめ仏像</span>
+      <div class="deity">${B.n}</div>
+      <div class="reading">${B.r}</div>
+      <div class="oneline">ひとことで言うと「<b>${B.one}</b>」</div>
+    </div>
+
+    <div class="photo">
+      <img src="${gi.u}" srcset="${gi.s}" alt="${B.n}（三十三間堂）" decoding="async"
+           referrerpolicy="no-referrer"
+           onerror="this.style.display='none';this.nextElementSibling.style.display='grid';">
+      <div class="ph">写真を読み込めませんでした<br>
+        <a href="${gi.pg}" target="_blank" rel="noopener">公式サイトでご覧ください</a></div>
+    </div>
+    <div class="credit">写真出典：<a href="${gi.pg}" target="_blank" rel="noopener">三十三間堂 公式サイト</a></div>
+
+    <h2 class="sec">なぜこの尊が選ばれたか</h2>
+    <div class="why">
+      <div class="wrow"><span class="k">あなたが求める力</span>
+        <span class="v">${QUESTIONS[0].opts[ans[0]]}</span>
+        <span class="acc"> ／ この尊が伸ばす「${B.pow}」と響き合います</span></div>
+      <div class="wrow"><span class="k">あなたが乗り越えたいこと</span>
+        <span class="v">${QUESTIONS[3].opts[ans[3]]}</span>
+        <span class="acc"> ／ この尊がもつ「${B.troub}」への力と重なります</span></div>
+      <div class="wrow"><span class="k">あなたの願い</span>
+        <span class="v">${QUESTIONS[4].opts[ans[4]]}</span>
+        <span class="acc"> ／ この尊の「${B.wish}」につながります</span></div>
+    </div>
+
+    <h2 class="sec">この尊の特徴</h2>
+    <p class="para">${B.feat}</p>
+
+    <h2 class="sec">ご利益（悩み・伸ばす力・願い）</h2>
+    <p class="para">${B.ben}</p>
+    <div class="chips">
+      <span class="chip">悩み：${B.troub}</span>
+      <span class="chip">伸ばす力：${B.pow}</span>
+      <span class="chip">願い：${B.wish}</span>
+    </div>
+
+    <h2 class="sec">次にご縁の近い尊</h2>
+    <div class="others">
+      ${others.map(o=>`<div class="orow">
+        <span style="display:flex;align-items:center;gap:11px">
+          <img class="thumb" src="${imgInfo(o.id).u}" alt="${BU[o.id].n}" loading="lazy"
+               onerror="this.style.visibility='hidden'">
+          <span>${BU[o.id].n}<br><span style="font-size:.75rem;color:#7d6c57">${BU[o.id].one}</span></span>
+        </span>
+        <span class="bar"><i style="width:${Math.max(o.pct,4)}%"></i></span>
+      </div>`).join('')}
+    </div>
+
+    <button class="btn" id="again">もう一度診断する</button>
+    <div class="foot">三十三間堂（蓮華王院）／京都・東山。<br>
+      仏像写真：<a href="https://www.sanjusangendo.jp/statue/" target="_blank" rel="noopener">三十三間堂 公式サイト</a>（著作権は三十三間堂に帰属。公開利用の際は寺へご確認ください）<br>
+      本診断はご提供の一覧・詳細にもとづく簡易な目安です。</div>
+  </div>`;
+  document.getElementById('back').onclick=()=>{ step=4; render(); };
+  document.getElementById('again').onclick=intro;
+}
+
+function render(){
+  window.scrollTo(0,0);
+  if(step<0) intro(); else if(step<=4) question(); else result();
+}
+render();
+
+/* 動作確認・紹介用：URLに「?demo=1」を付けると、回答例を入れた結果画面を
+   直接表示できます（例：index.html?demo=1）。 */
+if(/demo=1/.test(location.search + " " + location.hash)){
+  [0,0,0,0,1].forEach((v,i)=>{ ans[i]=v; });
+  step=5; render();
+}
+</script>
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495" integrity="sha512-iIg7k2xntmwu6/uSb5tpc/hySgZc4eoL31yB29W6tJFo2akwjPWcEqnCEdJvGexCL0KEQwVYv5BlowfhVz26hg==" data-cf-beacon='{"version":"2024.11.0","token":"4edd5f8ec12a48cfa682ab8261b80a79","spa":2}' crossorigin="anonymous"></script>
+</body>
+</html>
