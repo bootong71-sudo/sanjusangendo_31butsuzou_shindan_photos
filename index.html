@@ -35,6 +35,7 @@
   }
   .btn:hover{filter:brightness(1.08)}
   .btn.ghost{background:transparent; color:var(--sub); box-shadow:none; border:1px solid var(--line)}
+  .btn.secondary{background:var(--accent2); box-shadow:0 6px 16px rgba(138,106,47,.25); margin-top:12px;}
   .btn:disabled{opacity:.4; cursor:default}
 
   .topbar{display:flex; align-items:center; gap:12px; margin-bottom:14px}
@@ -107,6 +108,75 @@
   .fade{animation:f .4s ease}
   @keyframes f{from{opacity:0; transform:translateY(8px)}to{opacity:1; transform:none}}
   @media(max-width:420px){ .deity{font-size:1.7rem} .card{padding:20px 16px} }
+
+  /* 画面表示時のプリント用隠し要素 */
+  .print-footer-info { display: none; }
+
+  /* ============================================================
+     1枚出力用 印刷スタイル (CSS Print)
+     ============================================================ */
+  @media print {
+    @page {
+      size: A4 portrait;
+      margin: 8mm;
+    }
+    body {
+      background: #ffffff !important;
+      color: #000000 !important;
+      padding: 0 !important;
+      margin: 0 !important;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+    .app { max-width: 100% !important; width: 100% !important; }
+    .card {
+      border: none !important;
+      box-shadow: none !important;
+      padding: 0 !important;
+      background: #ffffff !important;
+    }
+    /* 印刷時に不要なボタンやバーを隠す */
+    .no-print, .topbar, .btn {
+      display: none !important;
+    }
+    /* A4 1枚に収めるためのサイズ＆レイアウト調整 */
+    .deity { font-size: 1.6rem !important; }
+    .reading { font-size: 0.8rem !important; }
+    .oneline { font-size: 0.9rem !important; margin-top: 6px !important; }
+    .photo {
+      width: 160px !important;
+      margin: 10px auto 0 !important;
+      box-shadow: none !important;
+    }
+    .credit { font-size: 0.65rem !important; margin-top: 4px !important; }
+    h2.sec {
+      font-size: 0.8rem !important;
+      margin: 10px 0 4px !important;
+      padding-left: 6px !important;
+    }
+    .why { gap: 4px !important; }
+    .wrow {
+      padding: 6px 10px !important;
+      font-size: 0.8rem !important;
+    }
+    .para { font-size: 0.8rem !important; line-height: 1.4 !important; }
+    .chips { margin-top: 4px !important; gap: 4px !important; }
+    .chip { font-size: 0.72rem !important; padding: 2px 8px !important; }
+    .others { gap: 4px !important; margin-top: 4px !important; }
+    .orow { padding: 6px 10px !important; font-size: 0.8rem !important; }
+    .thumb { width: 32px !important; height: 40px !important; }
+    .foot { font-size: 0.65rem !important; margin-top: 10px !important; line-height: 1.3 !important; }
+    
+    .print-footer-info {
+      display: block !important;
+      text-align: center;
+      font-size: 0.7rem;
+      color: #666;
+      border-top: 1px dashed #ccc;
+      margin-top: 10px;
+      padding-top: 6px;
+    }
+  }
 </style>
 </head>
 <body>
@@ -283,10 +353,6 @@ const BU = {
 
 /* ============================================================
    仏像写真（出典：三十三間堂 公式サイト）
-   ・1〜28 : 二十八部衆ページの img01〜img28 が、寺の掲載順＝上記の番号順に対応
-   ・29    : 千手観音（中尊）ページ img01
-   ・30/31 : 風神・雷神ページ img01=風神（風袋）／img02=雷神（太鼓）
-   ※画像は公式サイトを直接参照しています。著作権は三十三間堂に帰属します。
    ============================================================ */
 const SB="https://www.sanjusangendo.jp/wp-content/themes/33hp/assets/images/statue/";
 function imgInfo(id){
@@ -324,7 +390,7 @@ function compute(a){
 
 /* ---------- 画面制御 ---------- */
 const app=document.getElementById('app');
-let step=-1;           // -1 intro, 0..4 questions, 5 result
+let step=-1;       // -1 intro, 0..4 questions, 5 result
 const ans=[null,null,null,null,null];
 
 function bar(){
@@ -434,13 +500,23 @@ function result(){
       </div>`).join('')}
     </div>
 
+    <!-- 印刷／PDF保存用ボタン -->
+    <button class="btn secondary" id="print-btn">結果をシートとしてプリント / PDF保存</button>
     <button class="btn" id="again">もう一度診断する</button>
+    
     <div class="foot">三十三間堂（蓮華王院）／京都・東山。<br>
       仏像写真：<a href="https://www.sanjusangendo.jp/statue/" target="_blank" rel="noopener">三十三間堂 公式サイト</a>（著作権は三十三間堂に帰属。公開利用の際は寺へご確認ください）<br>
       本診断はご提供の一覧・詳細にもとづく簡易な目安です。</div>
+
+    <div class="print-footer-info">
+      京都・三十三間堂 31尊 おすすめ仏像診断 出力結果シート
+    </div>
   </div>`;
+
   document.getElementById('back').onclick=()=>{ step=4; render(); };
   document.getElementById('again').onclick=intro;
+  /* 印刷ボタンのクリックイベント */
+  document.getElementById('print-btn').onclick=()=>{ window.print(); };
 }
 
 function render(){
